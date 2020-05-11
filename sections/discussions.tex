@@ -1,0 +1,20 @@
+\section{DISCUSSÕES}
+
+Na análise de convergência de malha obteve-se resultados 
+satisfatórios com a malha 20x20, tendo um erro menor que 
+\SI{1}{\percent}, convergindo "por cima" para o valor de referência 
+de \cite{pegado_metodo_2003}, o que está dentro do próprio erro 
+indicado pela referência, que, por sua vez, converge "por baixo" aos
+valores indicados por \cite{dowell_aeroelasticity_1974}. Para os valores 
+encontrados por \citet[Table 2]{hedgepeth_flutter_1957} temos um 
+erro menor que $5\%$ convergindo "por cima".
+
+Para malhas com maiores números de elementos houve pouco ganho de precisão, enquanto houve um aumento significativo na quantidade de graus de liberdade e por consequência um aumento no gasto computacional.
+
+É possível inferir que há uma correlação entre a precisão das frequências dos primeiros modos de vibração com a precisão de $\lambda_{critico}$.
+O que é de se esperar, já que, usualmente, o acoplamento dos dois primeiros modos gera o caso de \emph{flutter} mais crítico, e portanto, a precisão com que os primeiros modos são representados no modelo em FEM impacta diretamente o resultado.
+
+Sendo assim, o uso de uma malha 20x20 é encorajado, já que fornece boa precisão com relativo baixo custo computacional. Pode-se sugerir que em configurações onde $a \neq b$ ou exista assimetria, outros valores de malha sejam usados com outros fins (e.g. manter a razão de aspecto do elemento adequada), mas que se mantenham um mínimo de 20 elementos em cada dimensão.
+
+A metodologia aplicada no problema de painel composto se mostrou suficientemente próxima à referência, observando-se a mesma tendência e com erros menores que \SI{5}{\percent}, entretanto convergindo "por cima", o que indica uma tendência não conservadora do modelo.
+

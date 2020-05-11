@@ -1,0 +1,105 @@
+\section{METODOLOGIA}
+
+No desenvolvimento do modelo adotou-se metodologia similar à utilizada
+por \cite{santos_finite_2019}. Foram realizados melhorias do 
+\emph{software}, onde passou-se a utilizar o pacote \emph{pyNastran} desenvolvido por \cite{doyle_stevedoyle2pynastran_2020},
+uma ferramenta que possibilita a manipulação dos modelos com maior
+facilidade. Passou-se a utilizar o cartão SET2, para facilitar a obtenção dos nós estruturais para interpolação. Estruturou-se o código afim de se tornar reutilizável para outras análises.
+
+O software desenvolvido por \cite{santos_zuckberjnastran-aero-flutter_2020}
+foi disponibilizado em repositório público com licença de tipo \emph{livre}.
+
+
+\subsection{Análise de Convergência de Malha}
+
+No estudo de convergência de malha adotou-se um modelo simples e conhecido na literatura de \emph{flutter} de painéis, uma placa retangular simplesmente apoiada, de dimensões \SI{300}{mm} de comprimento ($a$), 
+\SI{300}{mm} de largura ($b$) e \SI{1.5}{mm} de espessura ($t$). O material adotado foi o alumínio.
+
+Adotou-se um número de Mach ($M$) de \num{3}, densidade de referência ($\rho_a$) ao nível do mar ISA e corda de referência ($c_{ref}$) igual ao comprimento da placa.
+Buscou-se a velocidade crítica de flutter entre \SI{822}{m/s} e \SI{1066}{m/s}, que, fixado o valor de Mach, corresponde aos valores máximos e mínimos da velocidade do som dentro da atmosfera padrão terrestre, ou seja, uma variação de altitude-densidade.
+
+As propriedades do material adotadas foram: módulo de elasticidade ($E$) de \SI{71.7}{GPa}; módulo de cisalhamento ($G$) de \SI{26,9}{GPa}; coeficiente de Poisson ($\nu$) de \num{0,33}; e densidade ($\rho_m$) de \SI{2.81}{g/cm^3}.
+
+Para a efeitos comparativos foram computados os valores de dois parâmetros: a pressão dinâmica adimensional ($\lambda$) dado por 
+
+$$\lambda = \frac{2 \bar{q} a^3 }{\beta D}$$
+
+onde
+$\bar{q} = \frac{1}{2} \rho_a V^2$
+é a pressão dinâmica do escoamento,
+$D = E t^3/12(1 - \nu^2)$
+é a rigidez à flexão da placa,
+$\beta = \sqrt{M^2 - 1}$
+, e $V$ é o módulo da velocidade do escoamento;
+e a razão de densidades pelo número de Mach $\mu / M$ onde,
+$\mu = \rho_a a/\rho_m t$ é a razão de densidades.
+
+Calculou-se também as duas primeiras frequências de vibração teóricas
+para a placa, sendo a primeira frequência $f_1$ dada por
+$$f_1 = \frac{\pi}{a^2}\sqrt{\frac{D}{\rho_m t}}$$
+e a segunda frequência $f_2$ dada por
+$f_2 = \frac{5}{2}f_1$.
+
+Para o tamanho de malha inicial adotou-se 10x10 elementos aerodinâmicos e estruturais, tendo por base o modelo \emph{HA145HA} analisado em \cite{rodden_mscnastran_1994}. Analisou-se então $N$ múltiplos desta malha.
+
+É também possível analisar configurações em que os tamanhos de malha aerodinâmica e estrutural não são os mesmos. Entretanto recaímos em alguns problemas.
+
+No caso em que a malha aerodinâmica é menor que a estrutural temos 
+mais que dois nós estruturais pertencentes à região que o elemento 
+aerodinâmico ocupa em uma mesma coordenada $y$. Caso fossem 
+selecionados todos os nós, teríamos o desenvolvimento de uma
+matriz singular, o que inviabiliza a solução. Uma alternativa seria 
+utilizar valores maiores que zero para o parâmetro $D_z$ de 
+\emph{displacement attachment}, o que significa que a interpolação não
+necessariamente passa por todos os pontos designado, como descrito por \cite{rodden_mscnastran_1994}, entretanto esta 
+alternativa viola a hipótese de corda rígida da teoria pistão e leva a
+resultados insatisfatórios. Caso fossem selecionados somente uma 
+parcela dos nós, haveria uma perda de representatividade física, já 
+que o deslocamento dos nós não selecionados não implicaria em uma 
+mudança nos nós aerodinâmicos.
+
+Para o caso em que a malha aerodinâmica é maior que a estrutural temos
+uma limitação de a malha aerodinâmica ser o dobro da malha estrutural,
+isto já que para múltiplos maiores haveriam painéis aerodinâmicos 
+centrais sem nós estruturais correspondentes, e, mesmo que fossem 
+ligados aos nós estruturais adjacentes, não melhorariam a qualidade do
+modelo já que seus deslocamentos seriam iguais aos dos painéis vizinhos.
+
+Em casos de refinamento da malha aerodinâmica longitudinalmente não há uma melhora no resultado, já que a teoria pistão empregada é discretizada em faixas, e não há influência aerodinâmica de entre elas. Além disto, para placas quadradas, o uso de malhas com valores não simétricos, isto é, quantidade de elementos diferente nos sentidos longitudinal e lateral, não é adequado, já que pode produzir erros na solução da análise modal.
+
+Os valores de referência foram interpolados para a comparação.
+
+\subsection{Análise de Placa em Material Composto}
+
+O modelo adotado foi de mesma geometria e condições de contorno de que o modelo de estudo de convergência. O material utilizado para o laminado composto foi o \emph{Glass-Epoxy} (GFRP) de propriedades descritas na Tabela \ref{tab-cfrp}. As camadas foram dispostas seguindo a metodologia descrita por \cite{}, conforme a Tabela \ref{tab-camadas}. O ângulo de orientação $\theta$ para as camadas do laminado foi variado de \SI{0}{\degree} até \SI{90}{\degree} com passo de \SI{10}{\degree}. As escolhas de propriedades do material e disposição das camadas foram arbitrariamente escolhidas para comparação com \cite{sawyer_flutter_1977}.
+
+\begin{table}[H]
+\centering
+\caption{Propriedades do material GFRP.}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$E_1$ (\si{GPa}) & $E_2$ (\si{GPa}) & $G_{12}$ (\si{GPa}) & $\nu$ & $\rho_m$ (\si{g/cm^3}) \\ \hline
+\num{54} & \num{18} & \num{7.2} & \num{0.3} & \num{2.6} \\ \hline
+\end{tabular}
+\label{tab-cfrp}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Disposição das camadas do laminado.}
+\begin{tabular}{|c|c|c|}
+\hline
+Camada & Orientação (\si{\degree}) & Espessura (\si{mm}) \\ \hline
+1      & $\theta$   & \num{0.5}   \\ \hline
+2      & $-\theta$  & \num{0.5}   \\ \hline
+3      & $-\theta$  & \num{0.5}   \\ \hline
+4      & $\theta$   & \num{0.5}   \\ \hline
+\end{tabular}
+\label{tab-camadas}
+\end{table}
+
+Os propriedades do escoamento seguiram as mesmas da análise de 
+convergência, entretanto, com um valor de $M = \num{2}$ e o 
+\emph{range} de velocidades adequado.
+
+% \subsection{Análise de Placa Quadrada com Reforçador Longitudinal}

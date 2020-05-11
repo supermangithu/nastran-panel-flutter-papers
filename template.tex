@@ -1,0 +1,122 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{apacite}
+\usepackage{float}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{natbib}
+\usepackage{caption}
+\usepackage{indentfirst}
+\usepackage{changepage}
+\usepackage[brazilian]{babel}
+\usepackage[T1]{fontenc}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{times}
+\usepackage{floatflt}
+\usepackage{colortbl}
+\usepackage{fancyvrb}
+\usepackage{wrapfig}
+\usepackage[utf8]{inputenc}
+\newcommand{\fonte}[1]{\caption*{Fonte: {#1}} }
+\usepackage{csquotes}
+\usepackage{multirow}
+\usepackage{siunitx}
+
+\sisetup{
+output-decimal-marker = {,},
+}
+
+
+%%%TORNAR TABELA AJUSTÁVEL é só usar \p{}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+%Margens
+\setlength{\voffset}{-2.54cm}
+\setlength{\hoffset}{-2.54cm}
+\setlength{\textheight}{24,7cm}
+\setlength{\textwidth}{17cm}
+\setlength{\headwidth}{17cm}
+\setlength{\parindent}{0.5cm}
+\setlength{\topmargin}{1.5cm}
+\setlength{\headheight}{0.5cm}
+
+%Sections
+\makeatletter
+\def\section{\@startsection{section}{1}
+          {\z@}{10pt minus 0pt}{10pt minus 0pt}{\bf}}
+\def\subsection{\@startsection{subsection}{2}
+          {\z@}{10pt minus 0pt}{10pt minus 0pt}{\bf}}
+\def\subsubsection{\@startsection{subsubsection}{3}
+          {\z@}{10pt minus 0pt}{10pt minus 0pt}{\bf}}
+\def\thesection{\arabic{section}.\hskip -1ex}	
+\def\thesubsection {\thesection\hskip 1.1ex \arabic{subsection}\hskip -1ex}
+\def\thesubsubsection {\thesubsection\hskip 1.1ex .\arabic{subsubsection}\hskip -1ex}
+\makeatother
+
+\begin{document}
+
+\thispagestyle{plain}
+\pagestyle{fancy}
+\setlength{\headheight}{31pt}
+\rhead{	\footnotesize{\textsf{III Congresso Aeroespacial Brasileiro - CAB \\ 28 de Setembro a 1 de Outubro de 2020, Belo Horizonte, MG, Brasil}}  }
+\lhead{}
+
+% \begin{figure}
+%     \centering
+%     % \includegraphics[scale=0.83]{figures/cabecalho.pdf}
+% \end{figure}
+
+\begin{center}
+\vspace{-4mm}
+\Large{\textbf{USO DO NASTRAN PARA ANÁLISE DE FLUTTER SUPERSÔNICO DE PAINÉIS}}
+ \end{center}
+ 
+\hrulefill
+
+%RESUMO
+\begin{adjustwidth}{0.5cm}{0cm}
+
+\textbf{Victor Silva dos Santos}$^{a}$; \textbf{Hélio de Assis Pegado}$^{a}$;
+% \textbf{Terceito Autor}$^{c}$
+\newline
+[a] Universidade Federal de Minas Gerais -- Escola de Engenharia --
+Departamento de Engenharia Mecânica -- Av. Presidente Antônio Carlos, 6627, Pampulha, Belo Horizonte, MG, Brasil
+% \newline
+% [b] Associação do autor $b$ e endereço da instituição
+% \newline
+% [c] Associação do autor $c$ e endereço da instituição
+
+\hspace{0.2cm}
+
+\noindent \textit{\textbf{Resumo}: 
+O flutter de painéis é um fenômeno de grande interesse em aplicações supersônicas.
+Neste trabalho a ferramenta de pré-processamento para o NASTRAN,
+desenvolvida em trabalho passado, é 
+utilizada para uma análise de convergência de malha, e para casos
+estruturais mais complexos (i.e. placa de material composto), obtendo-se os parâmetros da fronteira de estabilidade. Os resultados apresentados mostram boa correlação com a literatura e portanto demonstram a capacidade da metodologia de análise para estes casos.
+}
+\end{adjustwidth}
+
+\vspace{0.5cm}
+
+\begin{adjustwidth}{0.4cm}{0cm}
+
+\textit{\textbf{Palavras-chave}: painéis, aeroelasticidade, flutter, nastran, supersônico.}
+
+\end{adjustwidth}
+
+\hrulefill
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{corpo}
+
+
+\bibliographystyle{apacite}
+\bibliography{bibliography}
+
+\end{document}
+
